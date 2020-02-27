@@ -25,7 +25,7 @@ describe('RegisterPage.vue', () => {
     expect(wrapper.find('.tagline').text())
       .toEqual('Open source task management tool')
     expect(fieldUsername.element.value).toEqual('')
-    expect(fieldEmailAddress.element.value.value).toEqual('')
+    expect(fieldEmailAddress.element.value).toEqual('')
     expect(fieldPassword.element.value.value).toEqual('')
     expect(buttonSubmit.text())
       .toEqual('Create account')
@@ -44,7 +44,7 @@ describe('RegisterPage.vue', () => {
 
     wrapper.vm.form.username = username
     wrapper.vm.form.emailAddress = emailAddress
-    wrapper.vom.form.password = password
+    wrapper.vm.form.password = password
     expect(fieldUsername.element.value).toEqual(username)
     expect(fieldEmailAddress.element.value).toEqual(emailAddress)
     expect(fieldPassword.element.value).toEqual(password)
