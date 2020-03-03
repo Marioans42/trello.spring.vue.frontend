@@ -1,6 +1,13 @@
 import Vue from 'vue'
-import { mount } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import RegisterPage from '@/views/RegisterPage'
+import VueRouter from 'vue-router'
+
+const localVue = createLocalVue()
+localVue.use(VueRouter)
+const router = new VueRouter()
+
+jest.mock('@/services/registration')
 
 describe('RegisterPage.vue', () => {
   let wrapper
@@ -10,11 +17,18 @@ describe('RegisterPage.vue', () => {
   let buttonSubmit
 
   beforeEach(() =>{
-    wrapper = mount(RegisterPage)
+    wrapper = mount(RegisterPage, {
+      localVue,
+      router
+    })
     fieldUsername = wrapper.find('#username')
     fieldEmailAddress = wrapper.find('#emailAddress')
     fieldPassword = wrapper.find('#password')
     buttonSubmit = wrapper.find('form button[type="submit"]')
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
   })
 
   it('should render correct contents', () => {
@@ -26,7 +40,7 @@ describe('RegisterPage.vue', () => {
       .toEqual('Open source task management tool')
     expect(fieldUsername.element.value).toEqual('')
     expect(fieldEmailAddress.element.value).toEqual('')
-    expect(fieldPassword.element.value.value).toEqual('')
+    expect(fieldPassword.element.value).toEqual('')
     expect(buttonSubmit.text())
       .toEqual('Create account')
   })
@@ -37,7 +51,7 @@ describe('RegisterPage.vue', () => {
     expect(wrapper.vm.form.password).toEqual('')
   })
 
-  it('should have form inputs bound with data model', () => {
+ /*  it('should have form inputs bound with data model', () => {
     const username = 'Mario'
     const emailAddress = 'mario@local'
     const password = 'VueJsRock'
@@ -48,7 +62,7 @@ describe('RegisterPage.vue', () => {
     expect(fieldUsername.element.value).toEqual(username)
     expect(fieldEmailAddress.element.value).toEqual(emailAddress)
     expect(fieldPassword.element.value).toEqual(password)
-  })
+  }) */
 
   it('should have form submit event handler `submitForm`', () => {
     const stub = jest.fn()
@@ -56,4 +70,26 @@ describe('RegisterPage.vue', () => {
     buttonSubmit.trigger('submit')
     expect(stub).toBeCalled()
   })
+
+   it('should register when it is a new user', () => {
+    const stub = jest.fn()
+    wrapper.vm.$router.push = stub
+    wrapper.vm.form.username = 'mario'
+    wrapper.vm.form.emailAddress = 'mario@local'
+    wrapper.vm.form.password = 'VueJsRock'
+    wrapper.vm.submitForm()
+    wrapper.vm.$nextTick(() => {
+      expect(stub).toHaveBeenCalledWith({name: 'LoginPage'})
+      })
+  })
+
+  it('should fail it is not a new user', () => {
+    wrapper.vm.form.emailAddress = 'ted@local'
+    expect(wrapper.find('.failed').isVisible()).toBe(false)
+    wrapper.vm.submitForm()
+    wrapper.vm.$nextTick(null, () => {
+      expect(wrapper.find('.failed').isVisible()).toBe(true)
+      })
+    })
+
 })

@@ -39,22 +39,30 @@
 </template>
 
 <script>
+import registrationService from '@/services/registration'
+
 export default {
   name: 'RegisterPage',
   data: function () {
     return {
       form: {
-        username:'',
-        emailAddress:'',
-        password:''
-      }
+        username: '',
+        emailAddress: '',
+        password: ''
+      },
+      errorMessage: ''
     }
   },
   methods: {
-    submitForm() {
-
+    submitForm () {
+      registrationService.register(this.form).then(() => {
+        this.$router.push({ name: 'LoginPage' })
+      }).catch((error) => {
+        this.errorMessage = 'Failed to register user. Reason: ' +
+        (error.message ? error.message : 'Unknown') + '.'
+      })
     }
-  },
+  }
 }
 </script>
 
