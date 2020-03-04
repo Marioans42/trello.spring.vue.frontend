@@ -3,8 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-
-Vue.config.productionTip = false
+import Vuelidate from 'vuelidate'
 
 axios.defaults.baseURL = '/api'
 axios.defaults.headers.common.Accept = 'application/json'
@@ -14,6 +13,10 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+Vue.use(Vuelidate)
+
+Vue.config.productionTip = false
 
 new Vue({
   router,

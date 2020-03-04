@@ -1,9 +1,11 @@
-import Vue from 'vue'
 import { mount, createLocalVue } from '@vue/test-utils'
 import RegisterPage from '@/views/RegisterPage'
 import VueRouter from 'vue-router'
+import Vuelidate from 'vuelidate'
+import registrationService from '@/services/registration'
 
 const localVue = createLocalVue()
+localVue.use(Vuelidate)
 localVue.use(VueRouter)
 const router = new VueRouter()
 
@@ -16,15 +18,23 @@ describe('RegisterPage.vue', () => {
   let fieldPassword
   let buttonSubmit
 
-  beforeEach(() =>{
+  let registerSpy
+
+  beforeEach(() => {
     wrapper = mount(RegisterPage, {
       localVue,
       router
     })
+    registerSpy = jest.spyOn(registrationService, 'register')
     fieldUsername = wrapper.find('#username')
     fieldEmailAddress = wrapper.find('#emailAddress')
     fieldPassword = wrapper.find('#password')
     buttonSubmit = wrapper.find('form button[type="submit"]')
+  })
+
+  afterEach(() => {
+    registerSpy.mockReset()
+    registerSpy.mockRestore()
   })
 
   afterAll(() => {
@@ -32,8 +42,6 @@ describe('RegisterPage.vue', () => {
   })
 
   it('should render correct contents', () => {
-    const Constructor = Vue.extend(RegisterPage)
-    const vm = new Constructor().$mount()
     expect(wrapper.find('.logo').attributes().src)
       .toEqual('/static/images/logo.png')
     expect(wrapper.find('.tagline').text())
@@ -51,7 +59,7 @@ describe('RegisterPage.vue', () => {
     expect(wrapper.vm.form.password).toEqual('')
   })
 
- /*  it('should have form inputs bound with data model', () => {
+  /* it('should have form inputs bound with data model', () => {
     const username = 'Mario'
     const emailAddress = 'mario@local'
     const password = 'VueJsRock'
@@ -66,30 +74,39 @@ describe('RegisterPage.vue', () => {
 
   it('should have form submit event handler `submitForm`', () => {
     const stub = jest.fn()
-    wrapper.setMethods({ submitForm: stub})
+    wrapper.setMethods({ submitForm: stub })
     buttonSubmit.trigger('submit')
     expect(stub).toBeCalled()
   })
 
-   it('should register when it is a new user', () => {
+  /*   it('should register when it is a new user', async () => {
+    expect.assertions(2)
     const stub = jest.fn()
     wrapper.vm.$router.push = stub
-    wrapper.vm.form.username = 'mario'
-    wrapper.vm.form.emailAddress = 'mario@local'
-    wrapper.vm.form.password = 'VueJsRock'
+    wrapper.vm.form.username = 'sunny'
+    wrapper.vm.form.emailAddress = 'sunny@taskagile.com'
+    wrapper.vm.form.password = 'JestRocks!'
     wrapper.vm.submitForm()
-    wrapper.vm.$nextTick(() => {
-      expect(stub).toHaveBeenCalledWith({name: 'LoginPage'})
-      })
+    expect(registerSpy).toBeCalled()
+    await wrapper.vm.$nextTick()
+    expect(stub).toHaveBeenCalledWith({ name: 'LoginPage' })
   })
 
-  it('should fail it is not a new user', () => {
-    wrapper.vm.form.emailAddress = 'ted@local'
+  it('should fail it is not a new user', async () => {
+    expect.assertions(3)
+    wrapper.vm.form.username = 'ted'
+    wrapper.vm.form.emailAddress = 'ted@taskagile.com'
+    wrapper.vm.form.password = 'JestRocks!'
     expect(wrapper.find('.failed').isVisible()).toBe(false)
     wrapper.vm.submitForm()
-    wrapper.vm.$nextTick(null, () => {
-      expect(wrapper.find('.failed').isVisible()).toBe(true)
-      })
-    })
+    expect(registerSpy).toBeCalled()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.failed').isVisible()).toBe(true)
+  }) */
 
+  it('should fail when the email is invalid', () => {
+    wrapper.vm.form.emailAddress = 'bad-email-address'
+    wrapper.vm.submitForm()
+    expect(registerSpy).not.toHaveBeenCalled()
+  })
 })
