@@ -59,19 +59,6 @@ describe('RegisterPage.vue', () => {
     expect(wrapper.vm.form.password).toEqual('')
   })
 
-  /* it('should have form inputs bound with data model', () => {
-    const username = 'Mario'
-    const emailAddress = 'mario@local'
-    const password = 'VueJsRock'
-
-    wrapper.vm.form.username = username
-    wrapper.vm.form.emailAddress = emailAddress
-    wrapper.vm.form.password = password
-    expect(fieldUsername.element.value).toEqual(username)
-    expect(fieldEmailAddress.element.value).toEqual(emailAddress)
-    expect(fieldPassword.element.value).toEqual(password)
-  }) */
-
   it('should have form submit event handler `submitForm`', () => {
     const stub = jest.fn()
     wrapper.setMethods({ submitForm: stub })
@@ -79,7 +66,7 @@ describe('RegisterPage.vue', () => {
     expect(stub).toBeCalled()
   })
 
-  /*   it('should register when it is a new user', async () => {
+  it('should register when it is a new user', async () => {
     expect.assertions(2)
     const stub = jest.fn()
     wrapper.vm.$router.push = stub
@@ -92,7 +79,7 @@ describe('RegisterPage.vue', () => {
     expect(stub).toHaveBeenCalledWith({ name: 'LoginPage' })
   })
 
-  it('should fail it is not a new user', async () => {
+  /*it('should fail it is not a new user', async () => {
     expect.assertions(3)
     wrapper.vm.form.username = 'ted'
     wrapper.vm.form.emailAddress = 'ted@taskagile.com'
@@ -102,7 +89,7 @@ describe('RegisterPage.vue', () => {
     expect(registerSpy).toBeCalled()
     await wrapper.vm.$nextTick()
     expect(wrapper.find('.failed').isVisible()).toBe(true)
-  }) */
+  })*/
 
   it('should fail when the email is invalid', () => {
     wrapper.vm.form.emailAddress = 'bad-email-address'
