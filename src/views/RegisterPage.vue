@@ -96,7 +96,6 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-
       registrationService.register(this.form).then(() => {
         this.$router.push({ name: 'LoginPage' })
       }).catch((error) => {
