@@ -63,10 +63,10 @@ export default {
   },
   methods: {
     goHome () {
-      this.$router.push({name: 'home'})
+      this.$router.push({ name: 'home' })
     },
     openBoard (board) {
-      this.$router.push({name: 'board', params: { boardId: board.id }})
+      this.$router.push({ name: 'board', params: { boardId: board.id }})
     }
   }
 }
