@@ -60,6 +60,14 @@ export default {
         required
       }
     }
+  },
+  methods: {
+    submitForm () {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }s
+    }
   }
 }
 </script>
