@@ -33,6 +33,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
+import authenticationService from '@/services/authentication'
 import Logo from '@/components/Logo.vue'
 import PageFooter from '@/components/PageFooter.vue'
 
@@ -66,7 +67,12 @@ export default {
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
-      }s
+      }
+      authenticationService.authenticate(this.form).then(() => {
+        this.$router.push({ name: 'home' })
+      }).catch((error) => {
+        this.errorMessage = error.message
+      })
     }
   }
 }
