@@ -16,7 +16,7 @@ module.exports = {
       .assert.hidden('@formError')
 
     browser.end()
-  },/*
+  }, /*
   'login with invalid credentials': function (browser) {
     const loginPage = browser.page.LoginPage()
     loginPage
@@ -62,4 +62,3 @@ module.exports = {
     browser.end()
   }
 }
-

@@ -81,7 +81,7 @@ describe('RegisterPage.vue', () => {
     expect(stub).toHaveBeenCalledWith({ name: 'LoginPage' })
   })
 
-  /*it('should fail it is not a new user', async () => {
+  /* it('should fail it is not a new user', async () => {
     expect.assertions(3)
     wrapper.vm.form.username = 'ted'
     wrapper.vm.form.emailAddress = 'ted@taskagile.com'
@@ -91,7 +91,7 @@ describe('RegisterPage.vue', () => {
     expect(registerSpy).toBeCalled()
     await wrapper.vm.$nextTick()
     expect(wrapper.find('.failed').isVisible()).toBe(true)
-  })*/
+  }) */
 
   it('should fail when the email is invalid', () => {
     wrapper.vm.form.emailAddress = 'bad-email-address'

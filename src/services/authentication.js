@@ -3,12 +3,12 @@ import errorParser from '@/utils/error-parser'
 
 export default {
   /**
-   * Create a team
-   * @param {*} detail the detail of the team
+   * Authenticate a login request
+   * @param {Object} detail login detail
    */
-  create (detail) {
+  authenticate (detail) {
     return new Promise((resolve, reject) => {
-      axios.post('/teams', detail).then(({ data }) => {
+      axios.post('/authentications', detail).then(({ data }) => {
         resolve(data)
       }).catch((error) => {
         reject(errorParser.parse(error))

@@ -12,7 +12,7 @@ module.exports = {
     // Generating user data
     const chance = new Chance()
     const name = chance.name().split(' ')
-    user.username = name[0].toLowerCase() + chance.integer({min: 0, max: 1000000})
+    user.username = name[0].toLowerCase() + chance.integer({ min: 0, max: 1000000 })
     user.emailAddress = user.username + '@e2e.taskagile.com'
     user.password = 'MyPassword!'
 
